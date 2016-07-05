@@ -1,33 +1,5 @@
 package ExportXML;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
-import javax.swing.SwingWorker;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import Imports.ImportCSV;
 import Imports.MNiSWPoints;
 import Imports.SAP;
@@ -39,6 +11,25 @@ import PMainWindow.SaveCSV;
 import Records.CompleteRecord;
 import Records.FieldsFromArray;
 import Records.RFL;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class ParseXML extends SwingWorker<String, Integer>
 {
@@ -68,6 +59,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 	private String[][] previousData;
 	private String[][] personData, personDataForRecord;
 	private ArrayList<String[]> reportList = new ArrayList<String[]>(10000);
+	private List<String> idsFromCorrectsList = new ArrayList<>();
 	public ParseXML(String[][] previousData, String[][] personData, String[] unitID, String[] year)
 	{
 		this.unitId = unitID;

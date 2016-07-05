@@ -3,8 +3,6 @@ package OtherExports;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.jgoodies.forms.layout.Size;
-
 import Imports.SAP;
 import Imports.Statics;
 import PMainWindow.Func;
@@ -97,7 +95,7 @@ public class PersonReport {
 				String[] usosField = usos.substring(0, usos.length()-1).split("; ");
 				for (int y=0; y<usosField.length; y++){
 					if (usosField[y].indexOf(unitUsos)>-1 && usosField[y].indexOf(ids[x])>-1){
-						dates[x][a] = 11;//ma³a wartoœæ, ¿eby przesz³a warunek koñcowy
+						dates[x][a] = 11;//maï¿½a wartoï¿½ï¿½, ï¿½eby przeszï¿½a warunek koï¿½cowy
 						a++;b++;
 						break;
 					}
@@ -116,13 +114,13 @@ public class PersonReport {
 				if (dates[x][y]<endDate)
 					a++;
 			}
-			if (a==1) return true; //sprawdzaæ rekordy doktorantów
+			if (a==1) return true; //sprawdzaï¿½ rekordy doktorantï¿½w
 			a=0;
 			for (int y=0; y<dates[x].length; y++)
 			{
 				if (dates[x][y]<endDate && dates[x][y]>=startDate) a++;
 			}
-			if (a<2) return true; //je¿eli jest tylko jedna data mniejsza ni¿ startDate, wówczas a=0;
+			if (a<2) return true; //jeï¿½eli jest tylko jedna data mniejsza niï¿½ startDate, wï¿½wczas a=0;
 			else{
 				b=0;
 				for (int y=0; y<dates[x].length; y++){
@@ -280,7 +278,7 @@ public class PersonReport {
 	 * 
 	 * @param idSAP
 	 * @param rMap
-	 * @return Zwraca String w postaci {id jednostki, pe³na nazwa jednostki}, je¿eli zwraca null, autor nie afiliuje wg SAP
+	 * @return Zwraca String w postaci {id jednostki, peï¿½na nazwa jednostki}, jeï¿½eli zwraca null, autor nie afiliuje wg SAP
 	 */
 	private static String[] findUnit(String idSAP, CompleteRecord record, String date){
 		Map<String, String[]> rMap = record.getMap();
@@ -291,7 +289,7 @@ public class PersonReport {
 		else if (idSAP.indexOf("USOS")>-1) id = idSAP.substring(4);
 		int[] dates = new int[20];
 		
-		//Sprawdziæ doktorantów (USOS)
+		//Sprawdziï¿½ doktorantï¿½w (USOS)
 		if (idSAP.indexOf("USOS")>-1){
 			String usos = rMap.get(RFL.F[RFL.USOS][2])[0];
 			if (usos.length()==0) return null;
@@ -308,7 +306,7 @@ public class PersonReport {
 			return null;
 		}
 		
-		//Sprawdziæ pole AB
+		//Sprawdziï¿½ pole AB
 		String[] r = findUnitInABFields(record, idSAP);
 		if (r!=null) return r;
 		
@@ -355,7 +353,7 @@ public class PersonReport {
 	}
 	/**
 	 * 
-	 * @return Zwraca String w postaci {id jednostki, pe³na nazwa jednostki}, je¿eli zwraca null, autor nie afiliuje wg SAP
+	 * @return Zwraca String w postaci {id jednostki, peï¿½na nazwa jednostki}, jeï¿½eli zwraca null, autor nie afiliuje wg SAP
 	 */
 	public static String[] findUnitInABFields(CompleteRecord rec, String idSAP){
 		String[] check = rec.getAdmins();

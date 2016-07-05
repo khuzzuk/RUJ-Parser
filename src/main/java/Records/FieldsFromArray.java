@@ -1,8 +1,8 @@
 package Records;
 
-import java.util.ArrayList;
-
 import PMainWindow.Func;
+
+import java.util.ArrayList;
 
 public class FieldsFromArray {
 	private static String[][] data;

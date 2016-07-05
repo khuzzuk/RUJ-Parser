@@ -1,59 +1,5 @@
 package PMainWindow;
 
-import jTableFunctions.ButtonColumn;
-import jTableFunctions.MouseRightClick;
-import jTableFunctions.TableCellColor;
-import jTableFunctions.TableColorByRow;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Properties;
-
-import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import CustomActions.SimpleSearch;
 import Imports.ImportCSV;
 import Imports.LoadScopusIndex;
@@ -64,17 +10,8 @@ import Inspector.ConferenceIndex;
 import Inspector.RTFields;
 import Inspector.ScopusIndex;
 import Interfaces.CSVDataHolder;
-import OtherDialogs.AffiliationsDialog;
-import OtherDialogs.ChangeContributorDialog;
-import OtherDialogs.ChooseAffiliationDialog;
-import OtherDialogs.ChooseUnitDialog;
-import OtherDialogs.ExportToPBNDialog;
-import OtherExports.Bartkowe1;
-import OtherExports.Bartkowe2;
-import OtherExports.PersonReport;
-import OtherExports.RemoveDuplicatesFromSAP;
-import OtherExports.SeriesReport;
-import OtherExports.UnafiliatedReport;
+import OtherDialogs.*;
+import OtherExports.*;
 import RecordEditor.CreateBasicEditor;
 import Records.CompleteRecord;
 import Records.FieldsFromArray;
@@ -82,6 +19,25 @@ import Records.RFL;
 import Records.RecordRIS;
 import RisSection.OpenBiB;
 import RisSection.OpenRis;
+import jTableFunctions.ButtonColumn;
+import jTableFunctions.MouseRightClick;
+import jTableFunctions.TableCellColor;
+import jTableFunctions.TableColorByRow;
+import org.xml.sax.SAXException;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Properties;
 
 public class MetAnWindow extends JFrame implements CSVDataHolder
 {
@@ -348,7 +304,7 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 			String[] inputText = new String[searchData.length];
 			for (int x=0; x<searchData.length; x++)
 			{
-				inputText[x] = JOptionPane.showInputDialog("Wyszukaj ci¹g znaków dla pola " + searchData[x]);
+				inputText[x] = JOptionPane.showInputDialog("Wyszukaj ci?g znaków dla pola " + searchData[x]);
 			}
 			FindMetadata results = new FindMetadata(loadedCSV, searchData, fieldListData, inputText);
 			temporaryData = results.getData();
@@ -672,16 +628,6 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 	}
 	class TemporaryAction extends AbstractAction{
 		public void actionPerformed(ActionEvent event){
-			/*JFileChooser chooseCSV = new JFileChooser();
-			chooseCSV.setCurrentDirectory(new File(settings.getProperty("lastFilePath")));
-			int result = chooseCSV.showOpenDialog(menuItems[0]);
-			if (result == JFileChooser.APPROVE_OPTION){
-				try {
-					RTFieldRepair.repair(chooseCSV.getSelectedFile());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}*/
 			try {
 				String unitID = ChooseAffiliationDialog.dialog(myIdentity);
 				String[][] units = ImportCSV.readData("/units.csv", "\"");
@@ -745,11 +691,11 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 	}
 	private void fillPopup(JPopupMenu popup)
 	{
-		JMenuItem goToURL = new JMenuItem("Otwórz rekord w przegl¹darce");
+		JMenuItem goToURL = new JMenuItem("Otwórz rekord w przegl?darce");
 		goToURL.addActionListener(new goToURLAction());
 		JMenuItem editMenu = new JMenuItem("Edytuj");
 		editMenu.addActionListener(new editRecord());
-		JMenuItem dcContributorMenu = new JMenuItem("Zamieñ twórców");
+		JMenuItem dcContributorMenu = new JMenuItem("Zamie? twórców");
 		dcContributorMenu.addActionListener(new Change_Contributors());
 		JMenuItem listAffiliations = new JMenuItem("Poka¿ afiliacje");
 		listAffiliations.addActionListener(new listAffiliationsAction());
@@ -762,19 +708,19 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 	{
 		menus[0] = new JMenu("Plik");
 		menus[1] = new JMenu("Wyszukaj");
-		menus[2] = new JMenu("Zamieñ");
+		menus[2] = new JMenu("Zamie?");
 		menus[3] = new JMenu("Metadane");
 		menus[4] = new JMenu("Raporty");
 		menus[5] = new JMenu("Inspekcja");
 		menuItems[0] = new JMenuItem("Otwórz CSV");
 		menuItems[1] = new JMenuItem("Eksportuj CSV");
-		menuItems[2] = new JMenuItem("WyjdŸ");
+		menuItems[2] = new JMenuItem("Wyjd?");
 		menuItems[3] = new JMenuItem("Powielone opisy");
 		menuItems[4] = new JMenuItem("ISSN");
 		menuItems[5] = new JMenuItem("Metadane");
 		menuItems[6] = new JMenuItem("na czasopismo");
 		menuItems[7] = new JMenuItem("na serie");
-		menuItems[8] = new JMenuItem("dodaj ID artyku³u");
+		menuItems[8] = new JMenuItem("dodaj ID artyku?u");
 		menuItems[9] = new JMenuItem("Wczytaj RIS");
 		menuItems[10] = new JMenuItem("Wczytaj BiBTeX");
 		menuItems[11] = new JMenuItem("dc.contributor");
@@ -782,16 +728,16 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 		menuItems[13] = new JMenuItem("Strony");
 		menuItems[14] = new JMenuItem("Numery serii");
 		menuItems[15] = new JMenuItem("ISBN");
-		menuItems[16] = new JMenuItem("Rekordy wydzia³y");
+		menuItems[16] = new JMenuItem("Rekordy wydzia?y");
 		menuItems[17] = new JMenuItem("Serie punktowane");
-		menuItems[18] = new JMenuItem("SprawdŸ indeksowanie Scopus (wszystkie rekordy)");
-		menuItems[19] = new JMenuItem("SprawdŸ indeksowanie Web of Science (wszystkie rekordy)");
+		menuItems[18] = new JMenuItem("Sprawd? indeksowanie Scopus (wszystkie rekordy)");
+		menuItems[19] = new JMenuItem("Sprawd? indeksowanie Web of Science (wszystkie rekordy)");
 		menuItems[20] = new JMenuItem("Tabelka dla pól OpenAccess");
 		menuItems[21] = new JMenuItem("Wczytaj xml");
-		menuItems[22] = new JMenuItem("SprawdŸ problemy z afiliacj¹");
-		menuItems[23] = new JMenuItem("Napraw listê SAP");
-		menuItems[24] = new JMenuItem("SprawdŸ pole \"admin\"");
-		menuItems[25] = new JMenuItem("SprawdŸ indeksowanie konferencji");
+		menuItems[22] = new JMenuItem("Sprawd? problemy z afiliacji");
+		menuItems[23] = new JMenuItem("Napraw list? SAP");
+		menuItems[24] = new JMenuItem("Sprawd? pole \"admin\"");
+		menuItems[25] = new JMenuItem("Sprawd? indeksowanie konferencji");
 		menuItems[26] = new JMenuItem("Dodaj opis do pól [RT]");
 		menuItems[27] = new JMenuItem("Temporary");
 		menuBar.add(menus[0]);
@@ -835,7 +781,7 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 		}
 	private void createToolBar()
 	{
-		toolbar = new JToolBar("Pasek narzêdzi");
+		toolbar = new JToolBar("Pasek narz?dzi");
 		toolbarButtons[0] = new JButton(new ImageIcon(getClass().getResource("/Open.png")));
 		toolbarButtons[1] = new JButton(new ImageIcon(getClass().getResource("/Save.png")));
 		toolbarButtons[2] = new JButton(new ImageIcon(getClass().getResource("/Edit.png")));
@@ -849,8 +795,8 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 		toolbarButtons[0].setToolTipText("Otwórz plik");
 		toolbarButtons[1].setToolTipText("Eksportuj do CSV");
 		toolbarButtons[2].setToolTipText("Edytuj rekord");
-		toolbarButtons[3].setToolTipText("Zamieñ role twórców");
-		toolbarButtons[4].setToolTipText("SprawdŸ indeksowanie konferencji");
+		toolbarButtons[3].setToolTipText("Zamie? role twórców");
+		toolbarButtons[4].setToolTipText("Sprawd? indeksowanie konferencji");
 		for (int x=0; x<2; x++) toolbar.add(toolbarButtons[x]);
 		toolbar.addSeparator();
 		for (int x=2; x<toolbarButtons.length; x++) toolbar.add(toolbarButtons[x]);
@@ -875,10 +821,10 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 		menuItems[0].addActionListener(new OpenCSV());
 		menuItems[1].addActionListener(new ExportCSV());
 		menuItems[3].addActionListener(new FindDuplicatesAction("Powielone opisy"));
-		menuItems[4].addActionListener(new lookForJournals("ZnajdŸ po ISSN"));
+		menuItems[4].addActionListener(new lookForJournals("Znajd? po ISSN"));
 		menuItems[5].addActionListener(new metadataFind("Metadane"));
-		menuItems[6].addActionListener(new changeToJournal("Zamieñ na czasopismo"));
-		menuItems[7].addActionListener(new changeToSeries("Zamieñ na serie"));
+		menuItems[6].addActionListener(new changeToJournal("Zamie? na czasopismo"));
+		menuItems[7].addActionListener(new changeToSeries("Zamie? na serie"));
 		menuItems[8].addActionListener(new addArticleID("Dodaj Article ID"));
 		menuItems[9].addActionListener(new openRIS());
 		menuItems[10].addActionListener(new OpenBiBTeX());
@@ -899,7 +845,7 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 		menuItems[25].addActionListener(new checkConferenceIndexing());
 		menuItems[26].addActionListener(new addRTDescription());
 		menuItems[27].addActionListener(new TemporaryAction());
-		menuItems[2].addActionListener(new AbstractAction("WyjdŸ"){
+		menuItems[2].addActionListener(new AbstractAction("Wyjd?"){
 			public void actionPerformed(ActionEvent e){
 				try {
 					settingsMethod.saveSettings(myIdentity, getX(), getY(), getWidth(), getHeight());
@@ -1156,7 +1102,7 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 	}
 	public void checkConferenceIndexing(){
 		String issn = JOptionPane.showInputDialog("Podaj issn (Scopus)");
-		String confTitle = JOptionPane.showInputDialog("Podaj nazwê konferencji albo tytu³ ksi¹¿ki lub serii (Web of Science)");
+		String confTitle = JOptionPane.showInputDialog("Podaj nazw? konferencji albo tytu? ksi??ki lub serii (Web of Science)");
 		String a = "nie";
 		String b = "nie";
 		if (!issn.equals("") && ScopusIndex.checkScopusIndexing(scopusIndex, issn)) a = "tak";

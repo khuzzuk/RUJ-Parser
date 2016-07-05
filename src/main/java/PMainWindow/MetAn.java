@@ -1,9 +1,7 @@
 package PMainWindow;
 
-import java.awt.EventQueue;
-
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
+import java.awt.*;
 
 public class MetAn
 {

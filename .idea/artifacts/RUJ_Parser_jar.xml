@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="RUJ-Parser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/RUJ_Parser_jar</output-path>
+    <root id="archive" name="RUJ-Parser.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="RUJ-Parser" />
+    </root>
+  </artifact>
+</component>
