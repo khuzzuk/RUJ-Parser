@@ -8,6 +8,7 @@ import OtherDialogs.XMLReport;
 import PMainWindow.Func;
 import PMainWindow.MetAnWindow;
 import PMainWindow.SaveCSV;
+import Records.Author;
 import Records.CompleteRecord;
 import Records.FieldsFromArray;
 import Records.RFL;
@@ -26,10 +27,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 public class ParseXML extends SwingWorker<String, Integer>
 {
@@ -46,6 +45,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 	private String[][] countryCodes;
 	private String[] admin;
 	private String inputData[][];
+	private Collection<Author> authorsInRecord = new HashSet<>();
 	private JProgressBar progressbar;
 	private int maximum, filled;
 	private int count, authors, affiliated, X;
@@ -309,7 +309,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 					if (lists.get(x).get(y).equals(unitId[1])) b++;
 				}
 			}
-			if (a==1 && b==1) return true; //sprawdzaæ rekordy doktorantów
+			if (a==1 && b==1) return true; //sprawdzaï¿½ rekordy doktorantï¿½w
 			a=b=0;
 			for (int y=0; y<dates[x].length; y++)
 			{
@@ -318,7 +318,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 					if (lists.get(x).get(y).equals(unitId[1])) b++;
 				}
 			}
-			if (a==1 && b==1) return true; //je¿eli jest tylko jedna data mniejsza ni¿ startDate, wówczas a=0;
+			if (a==1 && b==1) return true; //jeï¿½eli jest tylko jedna data mniejsza niï¿½ startDate, wï¿½wczas a=0;
 			else{
 				b=0;
 				for (int y=0; y<dates[x].length; y++){
@@ -422,9 +422,9 @@ public class ParseXML extends SwingWorker<String, Integer>
 		return false;
 	}
 	/**
-	 * Metoda dla pól [AU]
-	 * @param id - identyfikator, mo¿na wprowadziæ zarówno pe³ny jak i sam numer.
-	 * @return zwraca <code>true</code> je¿eli numer ID nie zosta³ przypisany do pola [AU], <code>false</code> gdy znajdzie pole AU zawieraj¹ce identyfikator.
+	 * Metoda dla pï¿½l [AU]
+	 * @param id - identyfikator, moï¿½na wprowadziï¿½ zarï¿½wno peï¿½ny jak i sam numer.
+	 * @return zwraca <code>true</code> jeï¿½eli numer ID nie zostaï¿½ przypisany do pola [AU], <code>false</code> gdy znajdzie pole AU zawierajï¿½ce identyfikator.
 	 */
 	private boolean isAffiliated(String id)
 	{
@@ -467,6 +467,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		if (personData!=null) personDataForRecord = FieldsFromArray.getListFromArray(personData, record.getID());
 		X++;
 		authors=affiliated=0;
+        authorsInRecord.clear();
 		addTitle(subType);
 		count = 0;
 		if (!subType.equals("Review")){
@@ -474,7 +475,8 @@ public class ParseXML extends SwingWorker<String, Integer>
 		}
 		addAuthors(5, rec);
 		addAuthors(6, rec);
-		addResearchTeam();
+		//addResearchTeam();
+        countResearchTeam();
 		if (subType.equals("SourceEditorship") || subType.equals("CriticalEdition"))
 		{
 			addAuthors(4, rec);
@@ -544,25 +546,37 @@ public class ParseXML extends SwingWorker<String, Integer>
 		String[] authors = rMap.get(fields[fieldIndex][2]);
 		if (authors[0].equals("")) return;
 		String[][] output = new String[authors.length][5];
+        Author[] outputAuthors = new Author[authors.length];
 		String id;
 		String date = rMap.get(fields[17][2])[0];
 		for (int x=0; x<authors.length; x++)
 		{
-			if (authors[x].indexOf("[")>-1){
+		    outputAuthors[x] = new Author();
+			if (authors[x].contains("[")){
 				id = authors[x].substring(authors[x].indexOf("[")+1, authors[x].indexOf("]"));
+                outputAuthors[x].setId(id);
 			}
 			else id="";
-			if (authors[x].indexOf(", ")>-1){
+			if (authors[x].contains(", ")){
 				output[x][0] = authors[x].substring(0, authors[x].indexOf(", "));
+                outputAuthors[x].setName(authors[x].substring(0, authors[x].indexOf(", ")));
 			}
-			else output[x][0] = authors[x];
-			if (authors[x].indexOf("[")>-1 && authors[x].indexOf(", ")>-1)
-				output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" ["));
-			else if (authors[x].indexOf(", ")>-1)
-				output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2);
+			else{
+			    output[x][0] = authors[x];
+                outputAuthors[x].setName(authors[x]);
+			}
+			if (authors[x].contains("[") && authors[x].contains(", ")) {
+			    output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" ["));
+                outputAuthors[x].setFamilyName(authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" [")));
+            }
+			else if (authors[x].contains(", ")) {
+			    output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2);
+                outputAuthors[x].setFamilyName(authors[x].substring(authors[x].indexOf(", ")+2));
+            }
 			output[x][2] = id;
 			if (isListedAsAffiliated(authors[x])){
 				output[x][3]="1";
+                outputAuthors[x].affiliate();
 				count++;
 			}
 			else if (personData==null && !id.equals(""))
@@ -570,12 +584,14 @@ public class ParseXML extends SwingWorker<String, Integer>
 				if (isAuthorExportable(id, date))
 				{
 					output[x][3]="1";
+                    outputAuthors[x].affiliate();
 					count++;
 				}
 			}
 			else if (personData==null){
 				if (isMarkedAsAffiliated(authors[x])){
 					output[x][3]="1";
+                    outputAuthors[x].affiliate();
 					count++;
 				}
 			}
@@ -587,35 +603,24 @@ public class ParseXML extends SwingWorker<String, Integer>
 		{
 			if (output[x]!=null && output[x][0]!=null)
 			{
-				isNotAdded = true;
-				for (int y=0; y<rec.getElementsByTagName(role).getLength(); y++)
-				{
-					Element addedAuthor = (Element) rec.getElementsByTagName(role).item(y);
-					Element compare1 = (Element) addedAuthor.getElementsByTagName("family-name").item(0);
-					Element compare2 = (Element) addedAuthor.getElementsByTagName("given-names").item(0);
-					String text0 = compare1.getTextContent();
-					String text1 = compare2.getTextContent();
-					if (text0.equals(output[x][0]) && text1.equals(output[x][1])) {isNotAdded=false; break;}
-				}
-				if (isNotAdded)
+				if (!authorsInRecord.contains(outputAuthors[x]))
 				{
 					this.authors++;
 					refreshTemp();
 					temp[2] = authors[x];
 					authorsElements[x][0] = docx.createElementNS(namespace, role);
 					authorsElements[x][1] = docx.createElementNS(namespace, "given-names");
-					authorsElements[x][1].setTextContent(output[x][1]);
+					authorsElements[x][1].setTextContent(outputAuthors[x].getName());
 					authorsElements[x][2] = docx.createElementNS(namespace, "family-name");
-					authorsElements[x][2].setTextContent(output[x][0]);
+					authorsElements[x][2].setTextContent(outputAuthors[x].getFamilyName());
 					authorsElements[x][3] = docx.createElementNS(namespace, "system-identifier");
-					//authorsElements[x][3].setAttribute("system", "RUJ");
-					authorsElements[x][3].setTextContent(output[x][2]);
+					authorsElements[x][3].setTextContent(outputAuthors[x].getId());
 					authorsElements[x][4] = docx.createElementNS(namespace, "affiliated-to-unit");
 					/*if (isTemporaryAffiliated(authors[x], record.getID())){
 						authorsElements[x][4].setTextContent("true");
 						affiliated++;
 					}*/
-					if (output[x][3]!=null && output[x][3].equals("1")){
+					if (outputAuthors[x].isAffiliated()){
 						authorsElements[x][4].setTextContent("true");
 						temp[3] = "tak";
 						affiliated++;
@@ -638,8 +643,8 @@ public class ParseXML extends SwingWorker<String, Integer>
 							temp[4] = "nie";
 						}
 					}
-					else if (output[x][2].indexOf("SAP")>-1 && output[x][3]!=null && output[x][3].equals("1")){
-						if (isMarkedAsAffiliated(output[x][2])){
+					else if (output[x][2].contains("SAP") && output[x][3]!=null && output[x][3].equals("1")){
+						if (isMarkedAsAffiliated(outputAuthors[x].getId())){
 							authorsElements[x][5].setTextContent("false");
 							temp[4] = "nie";
 						}
@@ -648,7 +653,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 							temp[4] = "tak";
 						}
 					}
-					else if (output[x][2].indexOf("SAP")>-1 && !isAffiliated(output[x][2])){
+					else if (output[x][2].contains("SAP") && !isAffiliated(output[x][2])){
 						authorsElements[x][5].setTextContent("true");
 						temp[4] = "tak";
 					}
@@ -657,7 +662,9 @@ public class ParseXML extends SwingWorker<String, Integer>
 						temp[4] = "nie";
 					}
 					reportList.add(temp);
-					rec.appendChild(authorsElements[x][0]);
+                    if (Objects.equals(temp[3], "tak") || Objects.equals(temp[4], "tak")) {
+                        rec.appendChild(authorsElements[x][0]);
+                    }
 					authorsElements[x][0].appendChild(authorsElements[x][1]);
 					authorsElements[x][0].appendChild(authorsElements[x][2]);
 					if (output[x].length>2 && !output[x][2].equals(""))
@@ -668,7 +675,16 @@ public class ParseXML extends SwingWorker<String, Integer>
 			}
 		}
 	}
-	private void addResearchTeam(){
+
+	private void countResearchTeam() {
+        for (String s : record.getAdmins()) {
+            if (s.startsWith("[RT]")) {
+                authors+=s.split("â€”").length+1-authorsInRecord.size();
+            }
+        }
+    }
+
+    private void addResearchTeam(){
 		String[] admin1 = rMap.get(fields[35][2]);
 		String[] admin2 = rMap.get(fields[46][2]);
 		String[] admin = record.getAdmins();
@@ -678,7 +694,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		int a;
 		for (int x=0; x<admin.length; x++){
 			if (admin[x]!=null && admin[x].startsWith("[RT]")){
-				authors = admin[x].substring(4).split("—");
+				authors = admin[x].substring(4).split("â€”");
 				authorsElement = new Element[3];
 				for (int y=0; y<authors.length; y++){
 					a=authors[y].indexOf(",");
@@ -689,7 +705,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 						names[0] = authors[y].substring(0, a);
 						names[1] = authors[y].substring(a+2);
 					}
-					else if((y!=0||authors[y].indexOf("ATLAS")==-1)){
+					else if((y!=0|| !authors[y].contains("ATLAS"))){
 						a = authors[y].indexOf(" ");
 						if (a>-1){
 							names[0] = authors[y].substring(0, a);
@@ -720,7 +736,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 			allAuthors += field.length;
 		}*/
 		Element others = docx.createElementNS(namespace, "other-contributors");
-		others.setTextContent(new Integer(authors-affiliated).toString());
+		others.setTextContent(Integer.toString(authors - affiliated));
 		rec.appendChild(others);
 	}
 	private void addIdentifiers()
@@ -860,7 +876,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		//rPages = Func.countPages(rPages);
 		if (rPages!=null && !rPages.equals(""))
 		{
-			/*if (rPages.indexOf("-")==-1 && rPages.indexOf("–")==-1)
+			/*if (rPages.indexOf("-")==-1 && rPages.indexOf("ï¿½")==-1)
 				rPages = rPages + "-" + rPages;*/
 			pages.setTextContent(rPages);
 			rec.appendChild(pages);
@@ -1113,7 +1129,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 			//if (type.equals("BookSection") && rPages.indexOf("-")==-1)
 				//rPages = rPages + "-" + rPages;
 			Element pages = docx.createElementNS(namespace, "pages");
-			pages.setTextContent(rMap.get(fields[15][2])[0]);//wy³¹czone liczenie stron
+			pages.setTextContent(rMap.get(fields[15][2])[0]);//wyï¿½ï¿½czone liczenie stron
 			rec.appendChild(pages);
 		}
 		else {
@@ -1121,7 +1137,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 			if (rPages!=null)
 			{
 				Element pages = docx.createElementNS(namespace, "pages");
-				pages.setTextContent(rMap.get(fields[15][2])[0]);//wy³¹czone liczenie stron
+				pages.setTextContent(rMap.get(fields[15][2])[0]);//wyï¿½ï¿½czone liczenie stron
 				rec.appendChild(pages);
 			}
 		}
@@ -1132,8 +1148,8 @@ public class ParseXML extends SwingWorker<String, Integer>
 		int collection = Integer.parseInt(tempCollection.substring(tempCollection.indexOf("/")+1));
 		String type = rMap.get(fields[36][2])[0];
 		String subType = rMap.get(fields[37][2])[0];
-		//Warunki typów
-		//Rozdzia³
+		//Warunki typï¿½w
+		//Rozdziaï¿½
 		if (type.equals("BookSection"))
 		{
 			if (subType.equals("Report"))
@@ -1179,7 +1195,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				rec.appendChild(isPopular);
 			}
 		}
-		//Ksi¹¿ka
+		//Ksiï¿½ï¿½ka
 		if (type.equals("Book"))
 		{
 			if (collection==3)
@@ -1225,7 +1241,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				rec.appendChild(isEditorial);
 			}
 		}
-		//Artyku³ w czasopismie
+		//Artykuï¿½ w czasopismie
 		if (type.equals("JournalArticle"))
 		{
 			if (collection==3)
@@ -1291,7 +1307,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				rec.appendChild(isForeword);
 			}
 		}
-		//Warunki podtypów
+		//Warunki podtypï¿½w
 		if (subType.equals("Afterword"))
 		{
 			Element isAfterword = docx.createElementNS(namespace, "is");
@@ -1479,7 +1495,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		try{get();}catch (Exception e) {System.out.println(X);e.printStackTrace();}
 		Toolkit.getDefaultToolkit().beep();
 		progressbar.setValue(maximum);
-		//JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Wyeksportowano "+X+" rekordów.");
+		//JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Wyeksportowano "+X+" rekordï¿½w.");
 		int status = XMLReport.dialog(X);
 		if (status==1){
 			JFileChooser chooseCSV = new JFileChooser();
@@ -1490,7 +1506,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				String outputFile = chooseCSV.getSelectedFile().getPath();
 				try {
 					SaveCSV saveFile = new SaveCSV(outputFile, Func.toArray(reportList), new String[]{
-							"id","tytu³","autor","afiliacja","zatrudnienie"
+							"id","tytuï¿½","autor","afiliacja","zatrudnienie"
 					});
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -1522,7 +1538,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		}
 		String[][] out = Func.toArray(list);
 		MetAnWindow.myIdentity.createTable(out, new String[]{"id", "dc.conference[pl]"});
-		JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Znaleziono "+out.length+" Ÿle wprowadzonych nazw krajów w konferencjach");
+		JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Znaleziono "+out.length+" ï¿½le wprowadzonych nazw krajï¿½w w konferencjach");
 	}
 	private void listExcludedRecords(){
 		ArrayList<String[]> list = new ArrayList<String[]>();

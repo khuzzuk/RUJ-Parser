@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: PMainWindow.MetAn
+Main-Class: gui.MetAn
 SplashScreen-Image: JBC_logo.png
 
