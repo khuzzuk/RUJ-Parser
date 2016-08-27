@@ -1506,7 +1506,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				String outputFile = chooseCSV.getSelectedFile().getPath();
 				try {
 					SaveCSV saveFile = new SaveCSV(outputFile, Func.toArray(reportList), new String[]{
-							"id","tytuï¿½","autor","afiliacja","zatrudnienie"
+							"id","tytu³","autor","afiliacja","zatrudnienie"
 					});
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -1525,7 +1525,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 	private void listWrongISOCodes(){
 		int colConf = Func.findColumn(inputData[0], fields[41][2]);
 		int a = wrongCountryCodes.size();
-		ArrayList<String[]> list = new ArrayList<String[]>();
+		ArrayList<String[]> list = new ArrayList<>();
 		String id;
 		for (int x=0; x<a; x++){
 			id = wrongCountryCodes.get(x);
@@ -1538,7 +1538,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		}
 		String[][] out = Func.toArray(list);
 		MetAnWindow.myIdentity.createTable(out, new String[]{"id", "dc.conference[pl]"});
-		JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Znaleziono "+out.length+" ï¿½le wprowadzonych nazw krajï¿½w w konferencjach");
+		JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Znaleziono "+out.length+" Ÿle wprowadzonych nazw krajów w konferencjach");
 	}
 	private void listExcludedRecords(){
 		ArrayList<String[]> list = new ArrayList<String[]>();
