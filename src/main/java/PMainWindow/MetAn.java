@@ -1,6 +1,4 @@
-package gui;
-
-import PMainWindow.MetAnWindow;
+package PMainWindow;
 
 import javax.swing.*;
 import java.awt.*;
