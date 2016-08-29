@@ -17,26 +17,26 @@ public class RFL
 	public static final String[][] F = new String[][] {
 			{"getType","Typ","dc.type[pl]"},//0 TYPE
 			{"getSubtype","Podtyp","dc.subtype[pl]"},//1
-			{"", "Tytu³", "dc.title[pl]"},//2
-			{"","Wariant tytu³u","dc.title.alternative[pl]"},//3
-			{"","Tytu³ orygina³u","dc.title.original[pl]"},//4
+			{"", "Tytuï¿½", "dc.title[pl]"},//2
+			{"","Wariant tytuï¿½u","dc.title.alternative[pl]"},//3
+			{"","Tytuï¿½ oryginaï¿½u","dc.title.original[pl]"},//4
 			{"author","Autorzy","dc.contributor.author[pl]"},//5
-			{"author","Wspó³twórcy","dc.contributor.other[pl]"},//6
-			{"author","T³umacze","dc.contributor.translator[pl]"},//7
+			{"author","Wspï¿½twï¿½rcy","dc.contributor.other[pl]"},//6
+			{"author","Tï¿½umacze","dc.contributor.translator[pl]"},//7
 			{"author","Recenzenci","dc.contributor.reviewer[pl]"},//8
 			{"editor","Redaktorzy","dc.contributor.editor[pl]"},//9
 			{"getIntitution","Instytucja sprawcza","dc.contributor.institution[pl]"},//10
-			{"getTitleJournal","Tytu³ czasopisma","dc.title.journal[pl]"},//11
-			{"getTitleContainer","Tytu³ publikacji macierzystej","dc.title.container[pl]"},//12
-			{"getTitleVolume","Tytu³ tomu","dc.title.volume[pl]"},//13
+			{"getTitleJournal","Tytuï¿½ czasopisma","dc.title.journal[pl]"},//11
+			{"getTitleContainer","Tytuï¿½ publikacji macierzystej","dc.title.container[pl]"},//12
+			{"getTitleVolume","Tytuï¿½ tomu","dc.title.volume[pl]"},//13
 			{"getVolume","Tom","dc.description.volume[pl]"},//14
 			{"getNumber","Numer","dc.description.number[pl]"},//15
 			{"getEdition","Wydanie","dc.description.edition[pl]"},//16
 			{"getPhysical","Opis fizyczny","dc.description.physical[pl]"},//17
-			{"getArticleID","ID artyku³u","dc.identifier.articleid[pl]"},//18
+			{"getArticleID","ID artykuï¿½u","dc.identifier.articleid[pl]"},//18
 			{"getDateIssued","Data wydania","dc.date.issued[pl]"},//19
 			{"getDateCreated","Data powstania/nominalna","dc.date.created[pl]"},//20
-			{"getDateSubmitted","Data zg³oszenia/obrony","dc.date.submitted[pl]"},//21
+			{"getDateSubmitted","Data zgï¿½oszenia/obrony","dc.date.submitted[pl]"},//21
 			{"getPubInfo","Adres wydawniczy","dc.pubinfo[pl]"},//22
 			{"getPlace","Miejsce powstania","dc.place[pl]"},//23
 			{"getSeries","Seria","dc.description.series[pl]"},
@@ -44,11 +44,11 @@ public class RFL
 			{"isbn","eISBN","dc.identifier.eisbn[pl]"},
 			{"getISSN","ISSN","dc.identifier.issn[pl]"},//27
 			{"geteISSN","eISSN","dc.identifier.eissn[pl]"},//28
-			{"getLang","Jêzyk","dc.language[pl]"},
-			{"getLang2","Jêzyk publ. macierzystej","dc.language.container[pl]"},
+			{"getLang","Jï¿½zyk","dc.language[pl]"},
+			{"getLang2","Jï¿½zyk publ. macierzystej","dc.language.container[pl]"},
 			{"getDOI","DOI","dc.identifier.doi[pl]"},//31
 			{"getLink","Link","dc.identifier.weblink[pl]"},//32
-			{"getAccession","Data dostêpu","dc.date.accession[pl]"},//33
+			{"getAccession","Data dostï¿½pu","dc.date.accession[pl]"},//33
 			{"getAffiliation","Afiliacja","dc.affiliation[pl]"},//34
 			{"getConfType","Typ konferencji","dc.description.conftype[pl]"},//35
 			{"getURI","Link w bazie","dc.identifier.uri[]"},//36
@@ -56,36 +56,36 @@ public class RFL
 			{"","Id","id"},//38
 			{"","Arkusze wydawnicze","dc.description.publication[pl]"}, // 39
 			{"conference", "Dane konferencji", "dc.conference[pl]" },//40
-			{"open-access", "Informacje o otwartym dostêpie", "dc.rights.original[pl]"},//41
+			{"open-access", "Informacje o otwartym dostï¿½pie", "dc.rights.original[pl]"},//41
 			{"usosID", "numer USOS", "dc.pbn.affiliation[pl]"},//42
-			{"keywords pl", "s³owa kluczowe (pl)", "dc.subject.pl[pl]"},//43
-			{"keywords en", "s³owa kluczowe (en)", "dc.subject.en[pl]"},//44
+			{"keywords pl", "sï¿½owa kluczowe (pl)", "dc.subject.pl[pl]"},//43
+			{"keywords en", "sï¿½owa kluczowe (en)", "dc.subject.en[pl]"},//44
 			{"getAdmin","Uwagi administratora [pl]","dc.description.admin[pl]"},//45 ADMIN
 			{"getAdmin2","Uwagi administratora []","dc.description.admin[]"}//46 ADMIN2
 			};
 	public static String[][] list()
 	{
-		String[][] methods = new String[][] {
-				{"", "Tytu³", "dc.title[pl]"},//0
-				{"","Wariant tytu³u","dc.title.alternative[pl]"},//1
-				{"","Tytu³ orygina³u","dc.title.original[pl]"},//2
+		return new String[][] {
+				{"", "TytuÅ‚", "dc.title[pl]"},//0
+				{"","Wariant tytuÅ‚u","dc.title.alternative[pl]"},//1
+				{"","TytuÅ‚ oryginaÅ‚u","dc.title.original[pl]"},//2
 				{"author","Autorzy","dc.contributor.author[pl]"},//3
-				{"author","Wspó³twórcy","dc.contributor.other[pl]"},//4
-				{"author","T³umacze","dc.contributor.translator[pl]"},//5
+				{"author","WspÃ³Å‚twÃ³rcy","dc.contributor.other[pl]"},//4
+				{"author","TÅ‚umacze","dc.contributor.translator[pl]"},//5
 				{"author","Recenzenci","dc.contributor.reviewer[pl]"},//6
 				{"getIntitution","Instytucja sprawcza","dc.contributor.institution[pl]"},//7
-				{"getTitleJournal","Tytu³ czasopisma","dc.title.journal[pl]"},//8
-				{"getTitleContainer","Tytu³ publikacji macierzystej","dc.title.container[pl]"},//9
-				{"getTitleVolume","Tytu³ tomu","dc.title.volume[pl]"},//10
+				{"getTitleJournal","TytuÅ‚ czasopisma","dc.title.journal[pl]"},//8
+				{"getTitleContainer","TytuÅ‚ publikacji macierzystej","dc.title.container[pl]"},//9
+				{"getTitleVolume","TytuÅ‚ tomu","dc.title.volume[pl]"},//10
 				{"getVolume","Tom","dc.description.volume[pl]"},//11
 				{"getNumber","Numer","dc.description.number[pl]"},//12
 				{"getEdition","Wydanie","dc.description.edition[pl]"},//13
 				{"editor","Redaktorzy","dc.contributor.editor[pl]"},//14
 				{"getPhysical","Opis fizyczny","dc.description.physical[pl]"},//15
-				{"getArticleID","ID artyku³u","dc.identifier.articleid[pl]"},//16
+				{"getArticleID","ID artykuÅ‚u","dc.identifier.articleid[pl]"},//16
 				{"getDateIssued","Data wydania","dc.date.issued[pl]"},//17
 				{"getDateCreated","Data powstania/nominalna","dc.date.created[pl]"},
-				{"getDateSubmitted","Data zg³oszenia/obrony","dc.date.submitted[pl]"},
+				{"getDateSubmitted","Data zgÅ‚oszenia/obrony","dc.date.submitted[pl]"},
 				{"getPubInfo","Adres wydawniczy","dc.pubinfo[pl]"},//20
 				{"getPlace","Miejsce powstania","dc.place[pl]"},
 				{"getSeries","Seria","dc.description.series[pl]"},
@@ -93,11 +93,11 @@ public class RFL
 				{"isbn","eISBN","dc.identifier.eisbn[pl]"},
 				{"getISSN","ISSN","dc.identifier.issn[pl]"},//25
 				{"geteISSN","eISSN","dc.identifier.eissn[pl]"},//26
-				{"getLang","Jêzyk","dc.language[pl]"},
-				{"getLang2","Jêzyk publ. macierzystej","dc.language.container[pl]"},
+				{"getLang","JÄ™zyk","dc.language[pl]"},
+				{"getLang2","JÄ™zyk publ. macierzystej","dc.language.container[pl]"},
 				{"getDOI","DOI","dc.identifier.doi[pl]"},//29
 				{"getLink","Link","dc.identifier.weblink[pl]"},//30
-				{"getAccession","Data dostêpu","dc.date.accession[pl]"},
+				{"getAccession","Data dostÄ™pu","dc.date.accession[pl]"},
 				{"getAffiliation","Afiliacja","dc.affiliation[pl]"},
 				{"getConfType","Typ konferencji","dc.description.conftype[pl]"},
 				{"getURI","Link w bazie","dc.identifier.uri[]"},
@@ -108,13 +108,12 @@ public class RFL
 				{"","Id","id"},//39
 				{"","Arkusze wydawnicze","dc.description.publication[pl]"}, // 40
 				{"conference", "Dane konferencji", "dc.conference[pl]" },
-				{"open-access", "Informacje o otwartym dostêpie", "dc.rights.original[pl]"},//42
+				{"open-access", "Informacje o otwartym dostÄ™pie", "dc.rights.original[pl]"},//42
 				{"usosID", "numer USOS", "dc.pbn.affiliation[pl]"},//43
-				{"keywords pl", "s³owa kluczowe (pl)", "dc.subject.pl[pl]"},//44
-				{"keywords en", "s³owa kluczowe (en)", "dc.subject.en[pl]"},//45
+				{"keywords pl", "sÅ‚owa kluczowe (pl)", "dc.subject.pl[pl]"},//44
+				{"keywords en", "sÅ‚owa kluczowe (en)", "dc.subject.en[pl]"},//45
 				{"getAdmin2","Uwagi administratora []","dc.description.admin[]"}//46 ADMIN2
 				};
-		return methods;
 	}
 	public static boolean checkField(String field){
 		String[][] fields = list();
@@ -126,26 +125,26 @@ public class RFL
 	public static String[][] list2()
 	{
 		String[][] methods = new String[][] {
-				{"getTitle", "Tytu³", "dc.title[pl]"},
-				{"getTitleAlternative","Wariant tytu³u","dc.title.alternative[pl]"},
-				{"getTitleOriginal","Tytu³ orygina³u","dc.title.original[pl]"},
+				{"getTitle", "Tytuï¿½", "dc.title[pl]"},
+				{"getTitleAlternative","Wariant tytuï¿½u","dc.title.alternative[pl]"},
+				{"getTitleOriginal","Tytuï¿½ oryginaï¿½u","dc.title.original[pl]"},
 				{"getAuthor","Autorzy","dc.contributor.author[pl]"},
-				{"getContributorOther","Wspó³twórcy","dc.contributor.other[pl]"},
-				{"getTranslator","T³umacze","dc.contributor.translator[pl]"},
+				{"getContributorOther","Wspï¿½twï¿½rcy","dc.contributor.other[pl]"},
+				{"getTranslator","Tï¿½umacze","dc.contributor.translator[pl]"},
 				{"getReviewer","Recenzenci","dc.contributor.reviewer[pl]"},
 				{"getIntitution","Instytucja sprawcza","dc.contributor.intitution[pl]"},
-				{"getTitleJournal","Tytu³ czasopisma","dc.title.journal[pl]"},
-				{"getTitleContainer","Tytu³ publikacji macierzystej","dc.title.container[pl]"},
-				{"getTitleVolume","Tytu³ tomu","dc.title.volume[pl]"},
+				{"getTitleJournal","Tytuï¿½ czasopisma","dc.title.journal[pl]"},
+				{"getTitleContainer","Tytuï¿½ publikacji macierzystej","dc.title.container[pl]"},
+				{"getTitleVolume","Tytuï¿½ tomu","dc.title.volume[pl]"},
 				{"getVolume","Tom","dc.description.volume[pl]"},
 				{"getNumber","Numer","dc.description.number[pl]"},
 				{"getEdition","Wydanie","dc.description.edition[pl]"},
 				{"getEditor","Redaktorzy","dc.contributor.editor[pl]"},
 				{"getPhysical","Opis fizyczny","dc.description.physical[pl]"},
-				{"getArticleID","ID artyku³u","dc.description.articleid[pl]"},
+				{"getArticleID","ID artykuï¿½u","dc.description.articleid[pl]"},
 				{"getDateIssued","Data wydania","dc.date.issued[pl]"},
 				{"getDateCreated","Data powstania/nominalna","dc.date.created[pl]"},
-				{"getDateSubmitted","Data zg³oszenia/obrony","dc.date.submitted[pl]"},
+				{"getDateSubmitted","Data zgï¿½oszenia/obrony","dc.date.submitted[pl]"},
 				{"getPubInfo","Adres wydawniczy","dc.pubinfo[pl]"},
 				{"getPlace","Miejsce powstania","dc.place"},
 				{"getSeries","Seria","dc.description.series[pl]"},
@@ -153,11 +152,11 @@ public class RFL
 				{"geteISBN","eISBN","dc.identifier.eisbn[pl]"},
 				{"getISSN","ISSN","dc.identifier.issn[pl]"},
 				{"geteISSN","eISSN","dc.identifier.eissn[pl]"},
-				{"getLang","Jêzyk","dc.language[pl]"},
-				{"getLang2","Jêzyk publ. macierzystej","dc.language.container[pl]"},
+				{"getLang","Jï¿½zyk","dc.language[pl]"},
+				{"getLang2","Jï¿½zyk publ. macierzystej","dc.language.container[pl]"},
 				{"getDOI","DOI","dc.identifier.doi[pl]"},
 				{"getLink","Link","dc.identifier.weblink[pl]"},
-				{"getAccession","Data dostêpu","dc.date.accession[pl]"},
+				{"getAccession","Data dostï¿½pu","dc.date.accession[pl]"},
 				{"getAffiliation","Afiliacja","dc.affiliation[pl]"},
 				{"getConfType","Typ konferencji","dc.conftype[pl]"},
 				{"getURI","Link w bazie","dc.identifier.uri"},

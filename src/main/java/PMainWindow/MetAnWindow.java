@@ -697,7 +697,7 @@ public class MetAnWindow extends JFrame implements CSVDataHolder
 		editMenu.addActionListener(new editRecord());
 		JMenuItem dcContributorMenu = new JMenuItem("Zamie? twórców");
 		dcContributorMenu.addActionListener(new Change_Contributors());
-		JMenuItem listAffiliations = new JMenuItem("Poka¿ afiliacje");
+		JMenuItem listAffiliations = new JMenuItem("Poka? afiliacje");
 		listAffiliations.addActionListener(new listAffiliationsAction());
 		popup.add(goToURL);
 		popup.add(editMenu);

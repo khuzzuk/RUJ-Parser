@@ -1,6 +1,6 @@
 package Records;
 
-public class Author {
+public class Person {
     private String name;
     private String familyName;
     private String id;
@@ -52,7 +52,7 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Author author = (Author) o;
+        Person author = (Person) o;
 
         if (!name.equals(author.name)) return false;
         if (!familyName.equals(author.familyName)) return false;
