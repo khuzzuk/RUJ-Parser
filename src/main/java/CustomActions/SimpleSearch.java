@@ -1,13 +1,12 @@
 package CustomActions;
 
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-
-import javax.swing.AbstractAction;
-
 import PMainWindow.Func;
 import PMainWindow.MetAnWindow;
 import Records.RFL;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class SimpleSearch extends AbstractAction {
 	public SimpleSearch(){}

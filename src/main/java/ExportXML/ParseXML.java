@@ -556,28 +556,28 @@ public class ParseXML extends SwingWorker<String, Integer>
 		String date = rMap.get(fields[17][2])[0];
 		for (int x=0; x<authors.length; x++)
 		{
-		    outputAuthors[x] = new Person();
-			if (authors[x].contains("[")){
-				id = authors[x].substring(authors[x].indexOf("[")+1, authors[x].indexOf("]"));
-                outputAuthors[x].setId(id);
+			outputAuthors[x] = null;
+			if (authors[x].contains("[") && authors[x].contains(", ")) {
+				output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" ["));
+				outputAuthors[x] = new Person(authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" [")));
 			}
-			else id="";
+			else if (authors[x].contains(", ")) {
+				output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2);
+				outputAuthors[x] = new Person(authors[x].substring(authors[x].indexOf(", ")+2));
+			}
 			if (authors[x].contains(", ")){
 				output[x][0] = authors[x].substring(0, authors[x].indexOf(", "));
-                outputAuthors[x].setFamilyName(authors[x].substring(0, authors[x].indexOf(", ")));
+				outputAuthors[x].setFamilyName(authors[x].substring(0, authors[x].indexOf(", ")));
 			}
 			else{
-			    output[x][0] = authors[x];
-                outputAuthors[x].setFamilyName(authors[x]);
+				output[x][0] = authors[x];
+				outputAuthors[x].setFamilyName(authors[x]);
 			}
-			if (authors[x].contains("[") && authors[x].contains(", ")) {
-			    output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" ["));
-                outputAuthors[x].setName(authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" [")));
-            }
-			else if (authors[x].contains(", ")) {
-			    output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2);
-                outputAuthors[x].setName(authors[x].substring(authors[x].indexOf(", ")+2));
-            }
+			if (authors[x].contains("[")){
+				id = authors[x].substring(authors[x].indexOf("[")+1, authors[x].indexOf("]"));
+				outputAuthors[x].setId(id);
+			}
+			else id="";
 			output[x][2] = id;
 			if (isListedAsAffiliated(authors[x])){
 				output[x][3]="1";
@@ -749,16 +749,16 @@ public class ParseXML extends SwingWorker<String, Integer>
         String[] editors = rMap.get(RFL.F[RFL.EDITOR][2]);
         String id;
         for (int x = 0; x < editors.length; x++) {
-            Person editor = new Person();
+            Person editor = null;
             id = editors[x].replaceAll("[^0-9]+", "");
             if (editors[x].contains(", ")) {
-                editor.setFamilyName(editors[x].substring(0, editors[x].indexOf(", ")));
                 if (!id.equals("")) {
-                    editor.setName(editors[x].substring(editors[x].indexOf(", ") + 2, editors[x].indexOf(" [")));
-                } else {
-                    editor.setName(editors[x].substring(editors[x].indexOf(", ") + 2));
-                }
-                if (editors[x].contains("[")) {
+					editor = new Person(editors[x].substring(editors[x].indexOf(", ") + 2, editors[x].indexOf(" [")));
+				} else {
+					editor = new Person(editors[x].substring(editors[x].indexOf(", ") + 2));
+				}
+				editor.setFamilyName(editors[x].substring(0, editors[x].indexOf(", ")));
+				if (editors[x].contains("[")) {
                     editor.setId(editors[x].substring(editors[x].indexOf("[") + 1, editors[x].indexOf("]")));
                     if (editor.getId().contains("SAP") && isAuthorExportable(editor.getId(), rMap.get(fields[17][2])[0]) ||
                             (personData != null && isListedAsAffiliated(editors[x]))) {
@@ -771,7 +771,7 @@ public class ParseXML extends SwingWorker<String, Integer>
                     }
                 }
             }
-            authorsInRecord.add(editor);
+			Optional.ofNullable(editor).ifPresent(authorsInRecord::add);
         }
         Element others = docx.createElementNS(namespace, "other-editors");
         others.setTextContent(Long.toString(authorsInRecord.stream().filter(e -> !e.isAffiliated() && !e.isEmployed()).count()));

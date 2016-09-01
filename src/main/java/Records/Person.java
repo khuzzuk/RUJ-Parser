@@ -1,11 +1,15 @@
 package Records;
 
 public class Person {
-    private String name;
+    private final String name;
     private String familyName;
     private String id;
     private boolean isAffiliated;
     private boolean isEmployed;
+
+    public Person(String name) {
+        this.name = name;
+    }
 
     public void affiliate() {
         isAffiliated = true;
@@ -17,10 +21,6 @@ public class Person {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getFamilyName() {

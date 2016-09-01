@@ -35,7 +35,6 @@
                 <version>2.19.1</version>
                 <configuration>
                     <includes>
-                        <include>**/*Spec.*</include>
                         <include>**/*Test.*</include>
                     </includes>
                 </configuration>
