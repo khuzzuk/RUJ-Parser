@@ -560,10 +560,12 @@ public class ParseXML extends SwingWorker<String, Integer>
 			if (authors[x].contains("[") && authors[x].contains(", ")) {
 				output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" ["));
 				outputAuthors[x] = new Person(authors[x].substring(authors[x].indexOf(", ")+2, authors[x].indexOf(" [")));
-			}
-			else if (authors[x].contains(", ")) {
-				output[x][1] = authors[x].substring(authors[x].indexOf(", ")+2);
-				outputAuthors[x] = new Person(authors[x].substring(authors[x].indexOf(", ")+2));
+			} else if (authors[x].contains(", ")) {
+				output[x][1] = authors[x].substring(authors[x].indexOf(", ") + 2);
+				outputAuthors[x] = new Person(authors[x].substring(authors[x].indexOf(", ") + 2));
+			} else {
+				output[x][1] = authors[x].substring(authors[x].indexOf(" ") + 1);
+				outputAuthors[x] = new Person(authors[x].substring(authors[x].indexOf(" ") + 1));
 			}
 			if (authors[x].contains(", ")){
 				output[x][0] = authors[x].substring(0, authors[x].indexOf(", "));
@@ -1563,7 +1565,10 @@ public class ParseXML extends SwingWorker<String, Integer>
 	}
 	protected void done()
 	{
-		try{get();}catch (Exception e) {System.out.println(X);e.printStackTrace();}
+		try{get();}catch (Exception e) {
+			System.out.println(X);e.printStackTrace();
+			JOptionPane.showMessageDialog(MetAnWindow.get(), "Pojawi³ siê b³¹d, program nie móg³ wyeksportowaæ wszystkich rekordów");
+		}
 		Toolkit.getDefaultToolkit().beep();
 		progressbar.setValue(maximum);
 		//JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Wyeksportowano "+X+" rekordï¿½w.");
