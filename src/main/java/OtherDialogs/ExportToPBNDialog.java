@@ -1,32 +1,5 @@
 package OtherDialogs;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
 import CustomActions.OpenCSV;
 import ExportXML.ParseXML;
 import Functions.CompareRecordsInArray;
@@ -34,6 +7,19 @@ import Imports.ImportCSV;
 import Interfaces.CSVDataHolder;
 import PMainWindow.Func;
 import PMainWindow.MetAnWindow;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import javax.swing.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 
 public class ExportToPBNDialog extends JFrame implements CSVDataHolder {
 	private JPanel pane;
@@ -73,7 +59,7 @@ public class ExportToPBNDialog extends JFrame implements CSVDataHolder {
 		}
 		unitList = new JComboBox<String>(names);	
 		
-		//wybór lat
+		//wybï¿½r lat
 		int currentYear = (int) (System.currentTimeMillis()/1000/3600/24/365.25 +1970);
 		String[] list = new String[currentYear-2011];
 		for (int x=2013; x<=currentYear; x++){
@@ -96,10 +82,10 @@ public class ExportToPBNDialog extends JFrame implements CSVDataHolder {
 		constr.gridx = 1;
 		pane.add(datesList, constr);
 		if (MetAnWindow.myIdentity.loadedCSV!=null){
-			labels[0] = new JLabel("Wczytano "+MetAnWindow.myIdentity.loadedCSV.length+" rekordów.");
+			labels[0] = new JLabel("Wczytano "+MetAnWindow.myIdentity.loadedCSV.length+" rekordï¿½w.");
 		}
 		if (personCSV!=null)
-			labels[2] = new JLabel("Wczytano "+personCSV.length+" osób.");
+			labels[2] = new JLabel("Wczytano "+personCSV.length+" osï¿½b.");
 		for (int x=0; x<buttons.length; x++){
 			constr.gridy = x+1;
 			constr.gridx = 0;
@@ -126,9 +112,11 @@ public class ExportToPBNDialog extends JFrame implements CSVDataHolder {
 	public void reportLoadedFile(String[][] inputData) {
 		if (previousCSV==null) previousCSV = inputData;
 		else previousCSV = Func.mergeArrays(previousCSV, inputData);
-		labels[1] = new JLabel("Wczytano "+previousCSV.length+" rekordów.");
+		labels[1] = new JLabel("Wczytano "+previousCSV.length+" rekordï¿½w.");
 		refresh();
-		previousCSV = Func.removeRow(previousCSV, 0);
+		if (previousCSV.length > 0 && previousCSV[0][0].equals("id")) {
+			previousCSV = Func.removeRow(previousCSV, 0);
+		}
 		Arrays.sort(previousCSV, new CompareRecordsInArray());
 	}
 	@Override
