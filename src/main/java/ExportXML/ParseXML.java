@@ -237,7 +237,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		personDataForRecord = FieldsFromArray.getListFromArray(personData, recordId);
 		if (personDataForRecord.length==0 || personDataForRecord[0].length==0) return false;
 		for (int x=0; x<personDataForRecord.length; x++){
-			if (personDataForRecord[x][2].equals(unitId[1])) return true;
+			if (personDataForRecord[x][2].equals(unitId[1]) && (personDataForRecord[x][4].equals("1") || personDataForRecord[x][5].equals("1"))) return true;
 		}
 		return false;
 	}
