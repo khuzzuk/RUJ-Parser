@@ -48,7 +48,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 	private Collection<Person> authorsInRecord = new HashSet<>();
 	private JProgressBar progressbar;
 	private int maximum, filled;
-	private int count, authors, affiliated, X;
+	private int authors, affiliated, X;
 	private int typeCol, subTypeCol;
 	private Properties settings;
 	private String[] exportedRecordIds;
@@ -469,7 +469,6 @@ public class ParseXML extends SwingWorker<String, Integer>
 		authors=affiliated=0;
         authorsInRecord.clear();
 		addTitle(subType);
-		count = 0;
 		if (!subType.equals("Review")){
 			addAuthors(3, rec);
 		}
@@ -584,7 +583,6 @@ public class ParseXML extends SwingWorker<String, Integer>
 			if (isListedAsAffiliated(authors[x])){
 				output[x][3]="1";
                 outputAuthors[x].affiliate();
-				count++;
 			}
 			else if (personData==null && !id.equals(""))
 			{
@@ -592,14 +590,12 @@ public class ParseXML extends SwingWorker<String, Integer>
 				{
 					output[x][3]="1";
                     outputAuthors[x].affiliate();
-					count++;
 				}
 			}
 			else if (personData==null){
 				if (isMarkedAsAffiliated(authors[x])){
 					output[x][3]="1";
                     outputAuthors[x].affiliate();
-					count++;
 				}
 			}
 		}
@@ -630,7 +626,6 @@ public class ParseXML extends SwingWorker<String, Integer>
 					if (outputAuthors[x].isAffiliated()){
 						authorsElements[x][4].setTextContent("true");
 						temp[3] = "tak";
-						affiliated++;
 					}
 					else{
 						authorsElements[x][4].setTextContent("false");
@@ -680,6 +675,9 @@ public class ParseXML extends SwingWorker<String, Integer>
 					authorsElements[x][0].appendChild(authorsElements[x][4]);
 					authorsElements[x][0].appendChild(authorsElements[x][5]);
 				}
+                if (outputAuthors[x].isAffiliated() || outputAuthors[x].isEmployed()) {
+                    affiliated++;
+                }
 			}
 		}
 	}
@@ -763,14 +761,20 @@ public class ParseXML extends SwingWorker<String, Integer>
 				editor.setFamilyName(editors[x].substring(0, editors[x].indexOf(", ")));
 				if (editors[x].contains("[")) {
                     editor.setId(editors[x].substring(editors[x].indexOf("[") + 1, editors[x].indexOf("]")));
-                    if (editor.getId().contains("SAP") && isAuthorExportable(editor.getId(), rMap.get(fields[17][2])[0]) ||
-                            (personData != null && isListedAsAffiliated(editors[x]))) {
-                        editor.affiliate();
+                    if (personData != null) {
+                        if (isListedAsAffiliated(editors[x])) {
+                            editor.affiliate();
+                        }
+                        if (isListedAsEmployed(editors[x])) {
+                            editor.setEmployed();
+                        }
+                    } else {
+                        if (editor.getId().contains("SAP") && isAuthorExportable(editor.getId(), rMap.get(fields[17][2])[0])) {
+                            editor.affiliate();
+                        }
                         if (!isMarkedAsAffiliated(editor.getId())) {
                             editor.setEmployed();
                         }
-                    } else if (personData != null && isListedAsEmployed(editors[x])) {
-                        editor.setEmployed();
                     }
                 }
             }
@@ -1159,7 +1163,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 						personsElements[x][4].setTextContent("true");
 						personsElements[x][0].appendChild(personsElements[x][4]);
 				}
-				if (output[x][4]!=null && output[x][4].equals("1")){
+				if (personData == null && output[x][4]!=null && output[x][4].equals("1")){
 					if (!isMarkedAsAffiliated(output[x][2])){
 						personsElements[x][5] = docx.createElementNS(namespace, "employed-in-unit");
 						personsElements[x][5].setTextContent("true");

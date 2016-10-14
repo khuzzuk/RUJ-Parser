@@ -169,7 +169,9 @@ public class ExportToPBNDialog extends JFrame implements CSVDataHolder {
 			if (result == JFileChooser.APPROVE_OPTION){
 				try {
 					String[][] persons = ImportCSV.readData(chooseFile.getSelectedFile(), "\"");
-					persons = Func.removeRow(persons, 0);
+					if (persons[0][0].equals("item_id")) {
+						persons = Func.removeRow(persons, 0);
+					}
 					personCSV = Func.mergeArrays(personCSV, persons);
 					Arrays.sort(personCSV, new CompareRecordsInArray());
 					refresh();

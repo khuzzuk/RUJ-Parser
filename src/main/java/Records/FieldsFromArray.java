@@ -141,7 +141,7 @@ public class FieldsFromArray {
 			int b = lookAt(0,data.length,a);
 			if (b>-1){
 				ArrayList<String[]> list = new ArrayList<String[]>();
-				for (int x=b; x>0; x--){
+				for (int x=b; x>-1; x--){
 					if (!data[x][0].equals(key)) break;
 					list.add(data[x]);
 				}
