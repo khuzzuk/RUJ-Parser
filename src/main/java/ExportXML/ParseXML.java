@@ -644,6 +644,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 						if (isListedAsEmployed(authors[x])){
 							authorsElements[x][5].setTextContent("true");
 							temp[4] = "tak";
+							outputAuthors[x].setEmployed();
 						}
 						else {
 							authorsElements[x][5].setTextContent("false");
@@ -1115,7 +1116,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		for (int x=0; x<persons.length; x++)
 		{
 			id = persons[x].replaceAll("[^0-9]+", "");
-			if (persons[x].indexOf(", ")>-1)
+			if (persons[x].contains(", "))
 			{
 				output[x][0] = persons[x].substring(0, persons[x].indexOf(", "));
 				if (!id.equals(""))
@@ -1123,7 +1124,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				else
 				output[x][1] = persons[x].substring(persons[x].indexOf(", ")+2);
 				output[x][2] = id;
-				if (persons[x].indexOf("[")>-1){
+				if (persons[x].contains("[")){
 					output[x][3] = persons[x].substring(persons[x].indexOf("[")+1, persons[x].indexOf("]"));
 				}
 			}
@@ -1145,17 +1146,18 @@ public class ParseXML extends SwingWorker<String, Integer>
 				{
 					personsElements[x][3] = docx.createElementNS(namespace, "system-identifier");
 					//personsElements[x][3].setAttribute("system", "RUJ");
-					personsElements[x][3].setTextContent("SAP" + output[x][2]);
+					if (persons[x].contains("SAP")) {
+						personsElements[x][3].setTextContent("SAP" + output[x][2]);
+					} else if (persons[x].contains("USOS")) {
+						personsElements[x][3].setTextContent("USOS" + output[x][2]);
+					}
 					personsElements[x][0].appendChild(personsElements[x][3]);
 				}
-				if (output[x][3]!=null){
-					if (output[x][3].indexOf("SAP")>-1 && isAuthorExportable(output[x][3], rMap.get(fields[17][2])[0]) || 
-							(personData!=null && isListedAsAffiliated(persons[x]))){
+				if (output[x][3]!=null && isListedAsAffiliated(persons[x])){
 						output[x][4] = "1";
 						personsElements[x][4] = docx.createElementNS(namespace, "affiliated-to-unit");
 						personsElements[x][4].setTextContent("true");
 						personsElements[x][0].appendChild(personsElements[x][4]);
-					}
 				}
 				if (output[x][4]!=null && output[x][4].equals("1")){
 					if (!isMarkedAsAffiliated(output[x][2])){
@@ -1567,7 +1569,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 	{
 		try{get();}catch (Exception e) {
 			System.out.println(X);e.printStackTrace();
-			JOptionPane.showMessageDialog(MetAnWindow.get(), "Pojawi³ siê b³¹d, program nie móg³ wyeksportowaæ wszystkich rekordów");
+			JOptionPane.showMessageDialog(MetAnWindow.get(), "Pojawiï¿½ siï¿½ bï¿½ï¿½d, program nie mï¿½gï¿½ wyeksportowaï¿½ wszystkich rekordï¿½w");
 		}
 		Toolkit.getDefaultToolkit().beep();
 		progressbar.setValue(maximum);
@@ -1582,7 +1584,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 				String outputFile = chooseCSV.getSelectedFile().getPath();
 				try {
 					SaveCSV saveFile = new SaveCSV(outputFile, Func.toArray(reportList), new String[]{
-							"id","tytu³","autor","afiliacja","zatrudnienie"
+							"id","tytuï¿½","autor","afiliacja","zatrudnienie"
 					});
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -1614,7 +1616,7 @@ public class ParseXML extends SwingWorker<String, Integer>
 		}
 		String[][] out = Func.toArray(list);
 		MetAnWindow.myIdentity.createTable(out, new String[]{"id", "dc.conference[pl]"});
-		JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Znaleziono "+out.length+" Ÿle wprowadzonych nazw krajów w konferencjach");
+		JOptionPane.showMessageDialog(MetAnWindow.myIdentity, "Znaleziono "+out.length+" ï¿½le wprowadzonych nazw krajï¿½w w konferencjach");
 	}
 	private void listExcludedRecords(){
 		ArrayList<String[]> list = new ArrayList<String[]>();
